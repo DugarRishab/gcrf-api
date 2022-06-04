@@ -14,7 +14,9 @@ exports.getLeaderboard = catchAsync(async (req, res, next) => {
 exports.getReport = catchAsync(async (req, res, next) => {
 	
 	const user = await User.findOne({email: req.params.email});
-	
+	if(!user){
+		return next(new AppError(`This Email " ${req.params.email} " is not registered. Please contact your facilitator`, 404));
+	}
 	res.status(200).json({
 		message: 'success',
 		data: {
